@@ -1,0 +1,17 @@
+pythonware API token
+
+import requests
+username = 'prayag27'
+token = '02a0d76db6fda39e207e84bde005915b1f88fcf7'
+
+response = requests.get(
+  'https://www.pythonanywhere.com/api/v0/user/{username}/cpu/'.format(
+      username=username
+  ),
+  headers={'Authorization': 'Token {token}'.format(token=token)}
+)
+if response.status_code == 200:
+  print('CPU quota info:')
+  print(response.content)
+else:
+  print('Got unexpected status code {}: {!r}'.format(response.status_code, response.content)
