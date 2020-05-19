@@ -1,45 +1,47 @@
 from django.db import models
-from multiselectfield import  MultiSelectField
-# Create your models here.
+from django.db.models import CharField, Model
+from multiselectfield import MultiSelectField
+from .Lists import ResourceList, IllnessList
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
+
+class Patient(models.Model):
+	name = models.CharField(max_length=50)
+	lat = models.IntegerField()
+	long = models.IntegerField()
+	illnesses = MultiSelectField(choices=IllnessList, max_choices=len(IllnessList), default=None)
+	currentPrescriptions = models.TextField()
+	isAdmitted = models.BooleanField(default=None)
+	hId = models.ForeignKey('HospitalDetails', related_name='+', on_delete= models.CASCADE, default=None, blank= True, null=True)
+	pId = models.IntegerField(primary_key=True)
+
+
 class HospitalDetails(models.Model):
-	hospitalId= models.UUIDField(primary_key=True)
-	"""ResourceList = (
-		('R1','Ambulatory surgical center'),
-		('R2','Birth center'), 
-		('R3','Dialysis Center'),
-		('R4','Imaging and radiology center'),
-		('R5,''Mental health and addiction treatment center'),
-		('R6','Orthopedic center'),
-	)"""
-	ResourceList = (
-        ('R1', 'Ambulatory surgical center'),
-        ('R2', 'Birth center'),
-        ('R3', 'Dialysis Center'),
-    )
-	Resources = MultiSelectField(choices=ResourceList, max_choices= len(ResourceList), default='R1')
-	#shirt_size = models.CharField(max_length=1, choices=SHIRT_SIZES, default='M')
-	vacancy = models.BigIntegerField(default=0)
-	HospitalName = models.TextField(default=None)
+	dId = models.ForeignKey('DoctorDetails', related_name='+', on_delete= models.CASCADE, default=None, blank= True, null=True)
+	#Resources = MultiSelectField(choices=ResourceList, max_choices=len(ResourceList), default='R1')
+	ResourceToQuant = models.TextField()
+	hospitalId = models.IntegerField(primary_key=True)
+	lat = models.IntegerField(default=0)
+	long = models.IntegerField(default=0)
+	pId = models.ForeignKey('Patient', related_name='+', on_delete= models.CASCADE, default=None, blank= True, null=True)
+
 
 class DoctorDetails(models.Model):
-	DocId = models.UUIDField(primary_key=True)
-	hospitalId = models.ForeignKey(HospitalDetails, on_delete=models.CASCADE)
-	#patientId = models.ForeignKey()
-	Name = models.TextField()
-	VisitingHoursFrom = models.TimeField(default=timezone.now)
-	VisitingHoursTo = models.TimeField(default=timezone.now)
-	"""discharge_date = models.DateTimeField(blank=True, null=True)
-	attending_doctor_name= models.CharField(max_length=200)
-	allocated_bed=models.IntegerField()
-	f1 = models.TextField()
-	
-	def AllocateBed(self):
-		self.free_beds-=1
+	dId = models.IntegerField(primary_key=True)
+	name = models.CharField(max_length=50)
+	visStart = models.TimeField(default=timezone.now)
+	visEnd = models.TimeField(default=timezone.now)
+	lat = models.IntegerField(default=0)
+	long = models.IntegerField(default=0)
+	hospShiftStart = models.TimeField(default=timezone.now)
+	hospShiftEnd = models.TimeField(default=timezone.now)
+	hId = models.ForeignKey('HospitalDetails', related_name='+', on_delete= models.CASCADE, default=None, blank= True, null=True)
+	patientId = models.ForeignKey('Patient', related_name= '+', on_delete=models.CASCADE, default=None, blank= True, null=True)
+
 """
 class ResourceDetails(models.Model):
-	total_beds=models.IntegerField(default=0)
-	total_nonMed_staff=models.IntegerField(default=0)
+	total_beds = models.IntegerField(default=0)
+	total_nonMed_staff = models.IntegerField(default=0)
+"""

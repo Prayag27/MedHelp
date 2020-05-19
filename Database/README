@@ -1,0 +1,59 @@
+ADDING DATA:
+-------------------
+	There are some fields that should mandatorily be present in each entity
+	of the Patient,Prescription, Doctor and Hospital collections....
+	These are:
+
+	Patient:
+		name:	Name of the patient
+		lat: latitude of patient's home
+		long: longitude of patient's home
+		illnesses: prescriptions of past illnesses Python List
+		currentPrescriptions: Prescriptions of current Illnesses Python
+				      List
+		isAdmitted: boolean to check if the patient is currently 
+			    admitted to any hospital or not
+		hId: ID of hospital (if not admitted hosnull)
+		pId: Patient ID
+		
+	Prescription:
+		prescId: Prescriptiton ID
+		dId: ID of the doctor who gave the prescription
+		pId: ID of the patient who gave the prescription
+		additionalDetails: Any additional details regarding medicine
+				   or dosage. Python Dictionary format
+	
+	Hospital: 	
+		doctors: Python list containing IDs of all doctors employed in
+			 the hospital
+		resourceToQuantity: Python Dictionary mapping the resource IDs 
+				    to the number of resources present
+		hId: hospital ID
+		lat: latitude of the hospital
+		long: longitude of the hospital
+		patients: Python list of all patient IDs in the hospital
+
+	Doctor:
+		dId: Doctor ID
+		name: Name of the doctor
+		visStart: start time of Private visiting hours in 24 hour format
+			  .This is number. Therefore, 6 am is 600. 6pm is 1800
+		visEnd: End time of private  visiting hours
+		lat: Latitude of Doctor's private chamber
+		long: Longitude of Doctor's private chamber
+		hospShiftStart: Start time of hospital shift of the doc. 24 hr
+		hospShiftEnd: End time of hospital shift. 24 hr format
+		hId: Hospital ID where the doc works. If none, hosnull. 
+		patients: Python List of active patients of the doctor
+
+
+FETCHING DATA
+---------------------------
+
+	hospGetPatients(hospId):  Takes the hospital ID and returns a list of 
+				  patient dictionary objects in the hospital.
+	docGetPatients(docId):	Takes the doctor ID and returns a list of patient
+				dictionary objects present in the hospital.
+	patGetDoctors(patId):	Takes a patient ID and returns a list of Doctor dictionary 
+				objects  which the patient is currently seeing.
+
