@@ -7,7 +7,7 @@ from django.db import models
 from django.utils import timezone
 
 
-class Patient(models.Model):
+class patient(models.Model):
 	name = models.CharField(max_length=50)
 	lat = models.IntegerField()
 	long = models.IntegerField()
@@ -19,7 +19,7 @@ class Patient(models.Model):
 
 
 class HospitalDetails(models.Model):
-	dId = models.ForeignKey('DoctorDetails', related_name='+', on_delete= models.CASCADE, default=None, blank= True, null=True)
+	dId = models.ForeignKey('DoctorDetails', related_name='+',max_length= 4 ,on_delete= models.CASCADE, default=None, blank= True, null=True)
 	#Resources = MultiSelectField(choices=ResourceList, max_choices=len(ResourceList), default='R1')
 	ResourceToQuant = models.TextField()
 	hospitalId = models.IntegerField(primary_key=True)

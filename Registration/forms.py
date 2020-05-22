@@ -1,5 +1,5 @@
 from django import forms
-from .models import DoctorDetails , HospitalDetails
+from .models import DoctorDetails , HospitalDetails, patient
 
 
 class GetDoctorDetails(forms.ModelForm):
@@ -14,3 +14,9 @@ class GetHospitalDetails(forms.ModelForm):
     class Meta:
         model = HospitalDetails
         fields = ('dId', 'ResourceToQuant','hospitalId','lat','long', 'pId')
+
+
+class GetPatientDetails(forms.ModelForm):
+    class Meta:
+        model = patient
+        fields = ('name', 'lat', 'long', 'illnesses', 'currentPrescriptions', 'isAdmitted', 'hId', 'pId')
