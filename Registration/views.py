@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import GetDoctorDetails, GetHospitalDetails,GetPatientDetails
+from .forms import GetDoctorDetails, GetHospitalDetails,GetPatientDetails, GetId
 from Database import ManageDB
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -15,7 +15,7 @@ def signup(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('/')
+            return redirect('/Profile')
         else:
             return render(request, 'signup.html', {'form': form})
     else:
@@ -24,14 +24,14 @@ def signup(request):
 
 def signin(request):
     if request.user.is_authenticated:
-        return render(request, 'homepage.html')
+        return render(request, 'Profile.html')
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/')
+            return redirect('/Profile')
         else:
             form = AuthenticationForm(request.POST)
             return render(request, 'signin.html', {'form': form})
@@ -55,12 +55,13 @@ def Register_Doctor(request):
                 'long': post.long,
                 'hospShiftStart': int(str(post.hospShiftStart.hour) + str(post.hospShiftStart.minute)),
                 'hospShiftEnd': int(str(post.hospShiftEnd.hour) + str(post.hospShiftEnd.minute)),
-                'hId': post.hId.hospitalId,
+                'hId': post.hId,
                 'patients': post.patientId,
             }
             print(doc)
             ManageDB.addDoctor(doc)
             post.save()
+            return render(request, 'Dashboard.html')
     else:
         form = GetDoctorDetails()
     return render(request, 'DoctorDetails.html', {'form': form})
@@ -80,11 +81,12 @@ def Register_Hospital(request):
                 'hId': post.hospitalId,
                 'lat': post.lat,
                 'long': post.long,
-                'patients': post.pId
+                'patients': post.pId.split()
             }
             print(hosp)
             ManageDB.addHospital(hosp)
             post.save()
+            return render(request, 'DataAccess.html')
     else:
         form = GetHospitalDetails()
     return render(request, 'HospitalDetails.html', {'form': form})
@@ -108,6 +110,31 @@ def Register_patient(request):
             print(pat)
             ManageDB.addPatient(pat)
             post.save()
+            return render(request, 'Dashboard.html')
     else:
         form = GetPatientDetails()
     return render(request, 'PatientDetails.html', {'form': form})
+
+def Profile(request):
+    return render(request, 'Profile.html')
+
+def FetchData(request):
+    if request.method == 'POST':
+        form = GetId(request.POST)
+        if form.is_valid():
+            print('VALID')
+            post = form.save(commit=False)
+            print(post.IdNum)
+            data = {
+                'data': post.IdNum
+            }
+            ManageDB.docGetPatients(post.IdNum)
+            post.save()
+            return redirect('/ViewData')
+    else:
+        form = GetId()
+    return render(request, 'DataAccess.html', {'form': form})
+
+def ViewData(request, data):
+
+    return render(request, 'ViewData.html', data)

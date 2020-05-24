@@ -122,8 +122,8 @@ img {
  </style>
 </head>
 
-<h2>Sign up</h2>
+<h2>Data Access</h2>
     <form method="POST" class="post-form">{% csrf_token %}
-        {{ form|crispy}}
+        {{form|crispy}}
         <button type="submit" class="save btn btn-default">Save</button>
     </form>

@@ -4,57 +4,124 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <style type="text/css">
- *{
- 	color: blue;
- }
-.page-header {
-    background-color: #C25100;
-    margin-top: 0;
-    padding: 20px 20px 20px 40px;
+
+@import url(https://fonts.googleapis.com/css?family=Signika+Negative:400,700);
+
+html, body {
+  height:10%;
+  font-family: 'Signika Negative', sans-serif;
+  font-size: 25px;
 }
 
-.page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
-    color: #ffffff;
-    font-size: 36pt;
-    text-decoration: none;
+html {
+  background: url('https://images.freeimages.com/images/large-previews/660/i-need-my-pills-1426791.jpg') fixed;
+  background-size: 100%;
 }
 
-.content {
-    margin-left: 40px;
+div {
+  overflow: hidden;
 }
 
-h1, h2, h3, h4 {
-    font-family: 'Lobster', cursive;
+a {
+  color: #322bff;
+  text-decoration: underline;
+  transition: 500ms;
+}
+a:hover {
+  color: #26a1ff;
 }
 
-.date {
-    color: #828282;
+p {
+  padding: 0 5%;
 }
 
-.save {
-    float: right;
+img {
+  box-shadow: 0px 0px 4px #000;
 }
 
-.post-form textarea, .post-form input {
-    width: 100%;
+#header {
+  background: rgba(255, 255, 255, .5);
+  padding: 1%;
+  overflow: hidden;
+  height: 55px;
+}
+#header img {
+  float: left;
+  box-shadow: none;
+}
+#header ul {
+  list-style: none;
+  float: left;
+  padding-left: 10px;
+  margin-top: 15px;
+}
+#header ul li {
+  float: left;
+  margin-left: 10px;
+  font-size: 20px;
 }
 
-.top-menu, .top-menu:hover, .top-menu:visited {
-    color: #ffffff;
-    float: right;
-    font-size: 26pt;
-    margin-right: 20px;
+.fullscreen {
+  height: 95%;
+  position: relative;
+}
+.fullscreen .header {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  text-shadow: 0px 0px 2px #000;
 }
 
-.post {
-    margin-bottom: 70px;
+.white {
+  background: #eeeeec;
+  padding: 0 5%;
+}
+.nobg {
+  background: none;
+  padding: 0 5%;
+  color: #fff;
+  text-shadow: 0px 0px 4px #000;
+}
+.semitrans {
+  background: rgba(255, 255, 255, .5);
+  padding: 0 5%;
+}
+.dark {
+  color: #eeeeec;
+  background: #010105;
+  padding: 0 5%;
 }
 
-.post h2 a, .post h2 a:visited {
-    color: #000000;
+.nopadding {
+  padding: 0;
 }
-        </style>
+
+.floatleft {
+  float: left;
+  margin: 2%;
+}
+.floatright {
+  float: right;
+  margin 2%;
+}
+
+.more {
+  text-align: center;
+  font-size: 17px;
+}
+.more a {
+  color: #aaa;
+  text-decoration: none;
+  cursor: pointer;
+}
+.more a:hover {
+  color: #777;
+}
+ </style>
 </head>
+
 <h2>Register Hospital Details</h2>
     <form method="POST" class="post-form">{% csrf_token %}
         {{form|crispy}}

@@ -8,5 +8,8 @@ path('signin/',views.signin,name='signin'),
     path('',views.homeHospital,name='Home'),
     path('DocReg/', views.Register_Doctor, name='ADD'),
     path('HsReg/', views.Register_Hospital, name = 'ADD'),
-path('PtReg/', views.Register_patient, name = 'ADD'),
+    path('PtReg/', views.Register_patient, name = 'ADD'),
+    path('Profile/',views.Profile, name = "Profile"),
+    path('FetchData/',views.FetchData,name='ADD'),
+    path('ViewData/', views.ViewData, name = 'View')
 ]
