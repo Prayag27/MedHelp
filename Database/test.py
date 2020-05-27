@@ -55,6 +55,6 @@ def addPrescription():
 
 #addPrescription()
 #exit(0)
-details=ManageDB.patGetDoctors('PAT100')
+details=ManageDB.patGetDoctors('PA')
 print(details)
 ManageDB.closeModule()

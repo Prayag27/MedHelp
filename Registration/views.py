@@ -1,3 +1,5 @@
+from typing import Dict, Any
+
 from django.shortcuts import render
 from .forms import GetDoctorDetails, GetHospitalDetails,GetPatientDetails, GetId
 from Database import ManageDB
@@ -46,6 +48,7 @@ def Register_Doctor(request):
         if form.is_valid():
             print('VALID')
             post = form.save(commit=False)
+            print(post.patientId.split)
             doc = {
                 'dId': post.dId,
                 'name': post.name,
@@ -56,7 +59,7 @@ def Register_Doctor(request):
                 'hospShiftStart': int(str(post.hospShiftStart.hour) + str(post.hospShiftStart.minute)),
                 'hospShiftEnd': int(str(post.hospShiftEnd.hour) + str(post.hospShiftEnd.minute)),
                 'hId': post.hId,
-                'patients': post.patientId,
+                'patients': [int(i) for i in post.patientId.split()],
             }
             print(doc)
             ManageDB.addDoctor(doc)
@@ -125,12 +128,13 @@ def FetchData(request):
             print('VALID')
             post = form.save(commit=False)
             print(post.IdNum)
-            data = {
-                'data': post.IdNum
+            data = ManageDB.docGetPatients(post.IdNum)
+            print(data)
+            context = {
+                'data': data
             }
-            ManageDB.docGetPatients(post.IdNum)
             post.save()
-            return redirect('/ViewData')
+            return render(request, 'ViewData.html', context)
     else:
         form = GetId()
     return render(request, 'DataAccess.html', {'form': form})
